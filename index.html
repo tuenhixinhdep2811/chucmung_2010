@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ffe3ec">
+<title>Thiệp yêu thương 20/10 🌹</title>
+<style>
+:root{
+  --pink:#ff6b9b;--deep:#d92f68;--rose:#ff9dbb;--pale:#fff1f5;
+  --ink:#81364f;--cream:#fffaf9;--gold:#f6cb83;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;overflow-x:hidden;color:var(--ink);
+  font-family:ui-rounded,"Segoe UI",system-ui,-apple-system,sans-serif;
+  background:
+    radial-gradient(circle at 15% 12%,#fff 0 2px,transparent 4px),
+    radial-gradient(circle at 83% 20%,#fff8 0 3px,transparent 6px),
+    linear-gradient(145deg,#fff3f6 0%,#ffdce7 46%,#ffc4d8 100%);
+  background-size:150px 150px,190px 190px,auto;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.scene{
+  position:relative;isolation:isolate;min-height:100svh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:84px 18px 32px;overflow:hidden;
+}
+.glow{position:absolute;z-index:-2;width:min(75vw,650px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,#fff9 0%,#ffc4d866 45%,transparent 70%);filter:blur(8px);top:10%;left:50%;transform:translateX(-50%)}
+.topbar{position:absolute;top:18px;left:18px;right:18px;display:flex;align-items:center;justify-content:space-between;gap:10px;z-index:20}
+.brand{font-weight:800;letter-spacing:.04em;font-size:.9rem;color:#a63c62}
+.pill,.icon-btn{
+  border:1px solid #fff;background:#ffffffb8;box-shadow:0 6px 20px #d44b7418;color:#963b5c;
+  border-radius:999px;padding:10px 14px;backdrop-filter:blur(10px);transition:transform .2s,background .2s;
+}
+.pill:hover,.icon-btn:hover{transform:translateY(-2px);background:#fff}
+.icon-btn{width:42px;height:42px;padding:0;display:grid;place-items:center;font-size:1.1rem}
+.top-actions{display:flex;gap:8px;align-items:center}
+.intro{text-align:center;max-width:650px;margin:0 auto 20px;animation:fadeDown .8s both}
+.kicker{font-size:.78rem;text-transform:uppercase;letter-spacing:.23em;color:#c34a73;font-weight:800}
+h1{font-family:Georgia,"Times New Roman",serif;font-weight:500;line-height:1.04;font-size:clamp(2.2rem,7vw,4.5rem);margin:12px 0;color:#c43d70;text-shadow:0 2px #fff8}
+h1 span{display:block;font-style:italic;color:#e45e8a;font-size:.62em;margin-top:10px}
+.subtitle{margin:12px auto 0;max-width:430px;line-height:1.7;color:#97516a}
+.stage{position:relative;width:min(92vw,540px);height:clamp(350px,57vh,480px);display:grid;place-items:center;perspective:1100px}
+.envelope-wrap{position:absolute;left:50%;top:50%;width:min(82vw,390px);height:250px;transform:translate(-50%,-35%);transition:opacity .7s,transform .8s;z-index:5}
+.envelope{
+  position:absolute;inset:0;border-radius:8px 8px 15px 15px;
+  background:linear-gradient(150deg,#fff9fb,#ffb9cf);box-shadow:0 24px 40px #a8345c2b, inset 0 0 0 1px #fff;
+  overflow:visible;
+}
+.env-back{position:absolute;inset:0;background:linear-gradient(145deg,#ffc8d9,#ffedf3);border-radius:8px 8px 14px 14px}
+.env-left,.env-right,.env-bottom{position:absolute;inset:0;border-radius:8px 8px 14px 14px}
+.env-left{background:linear-gradient(35deg,#f58eae,#ffdce7);clip-path:polygon(0 0,53% 51%,0 100%)}
+.env-right{background:linear-gradient(320deg,#f88eb0,#ffe6ed);clip-path:polygon(100% 0,47% 51%,100% 100%)}
+.env-bottom{background:linear-gradient(0deg,#ffb2ca,#ffe1ea);clip-path:polygon(0 100%,50% 45%,100% 100%)}
+.env-flap{
+  position:absolute;z-index:8;left:0;top:0;width:100%;height:62%;
+  background:linear-gradient(160deg,#fff4f7,#ff9fbe);clip-path:polygon(0 0,100% 0,50% 100%);
+  transform-origin:top;transition:transform .9s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 5px 3px #b83a6220);
+}
+.env-seal{position:absolute;z-index:9;left:50%;top:52%;transform:translate(-50%,-50%);width:57px;height:57px;border-radius:50%;
+  display:grid;place-items:center;color:white;font-size:1.55rem;background:radial-gradient(circle at 30% 25%,#ffb2ca,#e83e78 70%);
+  box-shadow:0 4px 12px #a8244e35;border:2px solid #ffd9e5;transition:opacity .3s,transform .3s}
+.env-label{position:absolute;z-index:4;left:0;right:0;top:24%;text-align:center;color:#c52e65;font-family:Georgia,serif;font-size:clamp(2.5rem,9vw,4rem);font-weight:bold;text-shadow:0 2px #fff9}
+.env-label small{display:block;font-family:inherit;font-size:.26em;letter-spacing:.25em;margin-top:0}
+.envelope-wrap:after{content:"";position:absolute;left:8%;right:8%;bottom:-28px;height:22px;border-radius:50%;background:#bd476333;filter:blur(12px);z-index:-1}
+.hint{position:absolute;bottom:5px;left:0;right:0;text-align:center;font-size:.9rem;color:#a24768;animation:bob 2s ease-in-out infinite}
+.tap-btn,.secondary-btn{
+  border:0;border-radius:999px;padding:14px 24px;font-weight:800;letter-spacing:.01em;color:#fff;
+  background:linear-gradient(135deg,#ff7eaa,#dc356f);box-shadow:0 10px 24px #d8376c40,inset 0 1px #ffffff9c;
+  transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden
+}
+.tap-btn:before{content:"";position:absolute;top:-80%;left:-35%;width:25%;height:260%;background:#fff8;transform:rotate(25deg);animation:shine 3.4s infinite}
+.tap-btn:hover,.secondary-btn:hover{transform:translateY(-3px);box-shadow:0 14px 28px #d8376c50}
+.tap-btn:active,.secondary-btn:active{transform:scale(.98)}
+.below{text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:-2px;z-index:10}
+.below p{margin:0;font-size:.9rem;color:#a65370}
+.bouquet{position:absolute;z-index:7;left:50%;top:43%;width:290px;height:300px;transform:translate(-50%,30%) scale(.15);opacity:0;pointer-events:none;transition:transform 1s cubic-bezier(.16,1.2,.3,1),opacity .5s}
+.stem{position:absolute;bottom:23px;left:50%;width:5px;height:155px;background:linear-gradient(90deg,#347a4d,#7fbd76);border-radius:8px;transform-origin:bottom}
+.stem.s1{transform:rotate(-28deg);height:138px}.stem.s2{transform:rotate(23deg);height:160px}.stem.s3{transform:rotate(3deg);height:175px}
+.leaf{position:absolute;width:42px;height:20px;background:linear-gradient(135deg,#78bd79,#246c48);border-radius:100% 0 100% 0;bottom:85px;left:calc(50% - 6px);transform:rotate(-32deg);box-shadow:inset 2px 2px #ffffff4a}
+.leaf.l2{bottom:120px;transform:rotate(35deg) scaleX(-1);left:calc(50% - 34px)}
+.rose{position:absolute;width:82px;height:82px;filter:drop-shadow(0 6px 4px #7c23442a);animation:roseSway 4s ease-in-out infinite}
+.rose.r1{left:45px;top:90px;transform:rotate(-18deg) scale(.86)}
+.rose.r2{left:102px;top:38px;transform:scale(1.03);animation-delay:-1s}
+.rose.r3{left:166px;top:88px;transform:rotate(16deg) scale(.9);animation-delay:-2s}
+.rose.r4{left:84px;top:119px;transform:scale(.7);animation-delay:-.7s}
+.rose svg{width:100%;height:100%;overflow:visible}
+.bow{position:absolute;z-index:5;bottom:5px;left:50%;transform:translateX(-50%);width:110px;height:46px}
+.bow:before,.bow:after{content:"";position:absolute;top:0;width:53px;height:37px;background:linear-gradient(145deg,#ff8caf,#d72f67);border:2px solid #ffcada}
+.bow:before{left:0;border-radius:90% 15% 75% 20%;transform:rotate(15deg)}
+.bow:after{right:0;border-radius:15% 90% 20% 75%;transform:rotate(-15deg)}
+.bow i{position:absolute;z-index:2;left:43px;top:11px;width:25px;height:25px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#ffc4d6,#d72e65);border:2px solid #ffd9e4}
+.card{
+  position:absolute;z-index:12;width:min(86vw,350px);min-height:320px;left:50%;top:47%;
+  transform:translate(-50%,45%) rotateX(-15deg) scale(.65);opacity:0;pointer-events:none;
+  border-radius:18px;padding:25px 24px 23px;text-align:center;
+  background:linear-gradient(150deg,#fffdfb,#fff0f4);border:1px solid #fff;box-shadow:0 25px 60px #a42e592e;
+  transition:transform .8s cubic-bezier(.2,1.2,.3,1),opacity .45s;
+}
+.card:before{content:"";position:absolute;inset:9px;border:1px solid #f4b1c5;border-radius:12px;pointer-events:none}
+.card .mini{font-size:1.6rem;margin:2px 0 7px}
+.card h2{font-family:Georgia,serif;font-size:1.75rem;font-weight:500;line-height:1.2;color:#cf3f72;margin:0 0 14px}
+.card p{white-space:pre-line;font-family:Georgia,serif;font-size:1rem;line-height:1.75;color:#8d4b62;margin:0}
+.card .sign{font-family:Georgia,serif;font-style:italic;color:#d64b7a;margin-top:16px}
+.photo-wrap{width:84px;height:84px;border-radius:50%;padding:4px;background:linear-gradient(135deg,#ff8bb1,#ffe3ec,#d83871);margin:0 auto 12px;box-shadow:0 5px 15px #d54b7722}
+.photo-wrap img{width:100%;height:100%;border-radius:50%;object-fit:cover;background:#ffe1eb}
+.photo-wrap.hidden{display:none}
+body.open .envelope-wrap{transform:translate(-50%,25%) scale(.92);opacity:.6}
+body.open .env-flap{transform:rotateX(180deg)}
+body.open .env-seal{opacity:0;transform:translate(-50%,-50%) scale(.4)}
+body.open .bouquet{opacity:1;transform:translate(-50%,-72%) scale(1)}
+body.open .card{opacity:1;pointer-events:auto;transform:translate(-50%,-47%) rotateX(0) scale(1)}
+body.open .hint{opacity:0}
+body.open .env-label{opacity:.2}
+body.open .stage{height:clamp(440px,70vh,560px)}
+.petal{position:fixed;top:-30px;z-index:3;pointer-events:none;width:13px;height:19px;border-radius:90% 10% 80% 15%;background:linear-gradient(135deg,#ffb2ca,#ed4f84);opacity:.85;animation:fall linear forwards}
+.sparkle{position:absolute;z-index:2;color:#fff;font-size:1.4rem;animation:twinkle 2s ease-in-out infinite}
+.sparkle.s1{top:18%;left:12%}.sparkle.s2{top:35%;right:12%;animation-delay:.8s}.sparkle.s3{bottom:20%;left:19%;animation-delay:1.1s}
+.footer{font-size:.75rem;color:#ad6580;margin-top:22px;text-align:center}
+.modal-backdrop{position:fixed;inset:0;z-index:50;display:none;place-items:center;padding:18px;background:#6b183b66;backdrop-filter:blur(8px)}
+.modal-backdrop.show{display:grid}
+.modal{width:min(100%,430px);border-radius:22px;padding:24px;background:#fff8fa;box-shadow:0 25px 80px #5c153b40;position:relative}
+.modal h3{font-family:Georgia,serif;font-size:1.65rem;color:#c83f71;margin:0 0 6px}
+.modal p{font-size:.9rem;line-height:1.55;color:#986078;margin:0 0 18px}
+.close{position:absolute;right:13px;top:13px;border:0;background:#ffe2eb;color:#a83d63;width:34px;height:34px;border-radius:50%;font-size:1.1rem}
+.field{display:flex;flex-direction:column;gap:7px;margin:13px 0;color:#8f405f;font-size:.88rem;font-weight:700}
+.field input,.field textarea{width:100%;border:1px solid #f0bfd0;border-radius:12px;padding:11px 12px;background:#fff;color:#75354d;outline:none}
+.field input:focus,.field textarea:focus{border-color:#e55d8b;box-shadow:0 0 0 3px #fbd5e1}
+.field textarea{min-height:100px;resize:vertical}
+.file-note{font-size:.78rem!important;margin-top:6px!important}
+.modal-actions{display:flex;gap:9px;margin-top:18px}
+.modal-actions button{flex:1}
+.secondary-btn{background:#fff;color:#b43b68;border:1px solid #f0bfd0;box-shadow:none}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes shine{0%,55%{left:-40%}80%,100%{left:130%}}
+@keyframes fall{to{transform:translate3d(var(--drift),110vh,0) rotate(700deg);opacity:.1}}
+@keyframes twinkle{0%,100%{opacity:.35;transform:scale(.8) rotate(0)}50%{opacity:1;transform:scale(1.2) rotate(18deg)}}
+@keyframes roseSway{0%,100%{margin-top:0}50%{margin-top:-5px}}
+@media(max-width:520px){
+ .scene{padding:82px 14px 24px;justify-content:flex-start}
+ .topbar{top:12px;left:12px;right:12px}.brand{font-size:.76rem}.pill{padding:9px 11px;font-size:.8rem}
+ .intro{margin:18px auto 0}.kicker{font-size:.68rem}h1{font-size:clamp(2.25rem,12vw,3.5rem);margin:9px 0}
+ .subtitle{font-size:.9rem;max-width:310px}
+ .stage{height:420px;width:100%;margin-top:0}
+ .envelope-wrap{width:min(84vw,350px);height:220px;transform:translate(-50%,-32%)}
+ .env-label{top:23%;font-size:3rem}.env-corner{top:9px;font-size:1.2rem}.corner-left{left:12px}.corner-right{right:12px}
+ .bouquet{top:40%;transform:translate(-50%,35%) scale(.12);width:270px}
+ body.open .bouquet{transform:translate(-50%,-70%) scale(.84)}
+ .card{width:min(88vw,340px);min-height:300px;padding:22px 20px;top:47%}
+ .card h2{font-size:1.55rem}.card p{font-size:.94rem;line-height:1.65}
+ body.open .envelope-wrap{transform:translate(-50%,29%) scale(.86)}
+ body.open .card{transform:translate(-50%,-43%) scale(.94)}
+ body.open .stage{height:470px}
+ .below{margin-top:-2px}.footer{margin-top:18px}
+}
+@media(max-height:740px) and (min-width:521px){
+ .scene{padding-top:70px}.intro{margin-bottom:0}.stage{height:390px}
+ .envelope-wrap{transform:translate(-50%,-30%) scale(.88)}
+ body.open .stage{height:450px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+}
+
+/* Responsive polish: mobile-first spacing, readable long greeting, and touch-friendly controls */
+@media (max-width: 520px) {
+  .scene { min-height: 100svh; padding: 76px 12px 22px; overflow: clip; }
+  .topbar { left: 10px; right: 10px; gap: 6px; }
+  .brand { max-width: 45%; font-size: .66rem; letter-spacing: .025em; line-height: 1.3; }
+  .top-actions { gap: 6px; }
+  .top-actions .pill { font-size: .74rem; padding: 9px 10px; }
+  .icon-btn { width: 38px; height: 38px; flex: 0 0 38px; }
+  .intro { width: 100%; margin: 12px auto 0; padding: 0 5px; }
+  .kicker { font-size: .62rem; letter-spacing: .15em; }
+  h1 { font-size: clamp(2rem, 10vw, 3rem); line-height: 1.08; }
+  h1 span { font-size: .58em; line-height: 1.25; }
+  .subtitle { max-width: 330px; font-size: .86rem; line-height: 1.5; margin-top: 8px; }
+  .stage { width: 100%; height: 350px; flex: 0 0 auto; margin-top: 2px; overflow: visible; }
+  .envelope-wrap { width: min(84vw, 340px); height: clamp(185px, 53vw, 220px); top: 48%; transform: translate(-50%, -30%); }
+  .env-label { top: 22%; font-size: clamp(2.5rem, 12vw, 3.15rem); }
+  .env-seal { width: 49px; height: 49px; font-size: 1.35rem; }
+  .bouquet { top: 40%; transform: translate(-50%, 30%) scale(.12); }
+  body.open .stage { height: auto; min-height: 600px; margin-bottom: 8px; }
+  body.open .envelope-wrap { transform: translate(-50%, 42%) scale(.73); opacity: .34; }
+  body.open .bouquet { transform: translate(-50%, -90%) scale(.67); }
+  .card { position:absolute; top: 49%; width: min(88vw, 355px); min-height: 0; max-height: none; padding: 20px 19px 22px; border-radius: 17px; }
+  body.open .card { transform: translate(-50%, -36%) scale(1); }
+  .card:before { inset: 7px; }
+  .card .mini { font-size: 1.25rem; margin-bottom: 6px; }
+  .photo-wrap { width: 66px; height: 66px; margin-bottom: 9px; }
+  .card h2 { font-size: clamp(1.35rem, 6vw, 1.65rem); margin-bottom: 10px; }
+  .card p { font-size: .88rem; line-height: 1.55; overflow-wrap: anywhere; }
+  .card .sign { margin-top: 12px; font-size: .95rem; }
+  .hint { bottom: 0; font-size: .8rem; }
+  .below { width: 100%; margin: 0 auto; gap: 10px; padding: 0 4px; }
+  .tap-btn { min-height: 46px; padding: 12px 20px; font-size: .92rem; }
+  .below p { max-width: 310px; font-size: .82rem; line-height: 1.45; }
+  .footer { margin-top: 14px; font-size: .7rem; }
+  .modal { max-height: 88svh; overflow-y: auto; padding: 22px 18px; }
+  .modal h3 { font-size: 1.45rem; padding-right: 25px; }
+  .modal-actions { position: sticky; bottom: -22px; padding: 12px 0 2px; background: #fff8fa; }
+}
+@media (max-width: 360px) {
+  .brand { font-size: .59rem; }
+  .top-actions .pill { padding: 8px; }
+  .stage { height: 320px; }
+  .card { width: 91vw; padding: 18px 16px 20px; }
+  body.open .stage { min-height: 620px; }
+  body.open .card { transform: translate(-50%, -34%) scale(.97); }
+  .card p { font-size: .84rem; line-height: 1.5; }
+}
+@media (min-width: 521px) {
+  .card { max-height: min(70vh, 570px); overflow-y: auto; }
+  body.open .stage { min-height: 570px; }
+  body.open .card { top: 48%; transform: translate(-50%, -40%) scale(1); }
+}
+@media (max-height: 700px) and (max-width: 520px) {
+  .scene { padding-top: 68px; }
+  .intro { margin-top: 4px; }
+  .stage { height: 300px; }
+  body.open .stage { min-height: 580px; }
+}
+
+
+/* Final responsive layout pass: keep the envelope centered and the full greeting readable. */
+.scene { width:100%; min-height:100svh; }
+.stage { min-width:0; }
+.card { box-sizing:border-box; overflow-wrap:anywhere; }
+.card p { white-space:pre-line; }
+@media (min-width: 521px) {
+  .scene { padding-left:24px; padding-right:24px; }
+  .intro { margin-bottom:12px; }
+  .stage { width:min(92vw,620px); height:clamp(390px,55vh,500px); }
+  .envelope-wrap { width:min(70vw,410px); height:250px; }
+  .card { width:min( min(86vw,390px), calc(100vw - 48px)); max-height:min(68svh,620px); padding:28px 28px 25px; }
+  .card h2 { font-size:clamp(1.55rem,2.5vw,1.9rem); }
+  .card p { font-size:clamp(.95rem,1.4vw,1.05rem); line-height:1.72; }
+  body.open .stage { height:clamp(590px,78svh,720px); }
+  body.open .card { top:47%; transform:translate(-50%,-38%) scale(1); }
+  body.open .bouquet { transform:translate(-50%,-92%) scale(.88); }
+  body.open .envelope-wrap { transform:translate(-50%,55%) scale(.78); opacity:.35; }
+}
+@media (max-width: 520px) {
+  .scene { min-height:100svh; padding:72px 12px 24px; overflow-x:clip; }
+  .topbar { position:absolute; }
+  .brand { max-width:calc(100% - 55px); font-size:.67rem; }
+  .intro { margin-top:10px; }
+  .stage { height:350px; min-height:350px; }
+  .envelope-wrap { width:min(84vw,350px); height:clamp(190px,55vw,225px); }
+  .card { width:min( calc(100vw - 28px), 390px); padding:21px 20px 23px; }
+  .card p { font-size:clamp(.88rem,3.7vw,.98rem); line-height:1.62; }
+  .card h2 { font-size:clamp(1.35rem,5.8vw,1.65rem); }
+  body.open .stage { min-height:0; height:auto; padding-top:0; padding-bottom:20px; margin-bottom:10px; }
+  body.open .card { position:relative; top:auto; left:auto; transform:none; width:min(calc(100vw - 28px),390px); margin:110px auto 0; opacity:1; pointer-events:auto; }
+  body.open .bouquet { top:100px; transform:translate(-50%,-42%) scale(.68); }
+  body.open .envelope-wrap { top:90px; transform:translate(-50%,0) scale(.68); opacity:.30; }
+  body.open .hint { display:none; }
+  .below { margin-top:0; }
+  .tap-btn { min-height:46px; }
+  .modal { width:min(100%,430px); max-height:88svh; overflow-y:auto; }
+}
+@media (max-width: 360px) {
+  .scene { padding-left:9px; padding-right:9px; }
+  .brand { font-size:.59rem; }
+  .stage { height:310px; min-height:310px; }
+  .env-label { font-size:2.45rem; }
+  .card { padding:19px 16px 21px; }
+  .card p { font-size:.85rem; line-height:1.58; }
+  body.open .card { margin-top:100px; }
+}
+@media (max-height: 700px) and (min-width:521px) {
+  .scene { padding-top:65px; }
+  .intro { margin-top:0; }
+  body.open .stage { height:610px; }
+}
+
+
+/* Fix final mobile greeting: petals stay behind text and the card grows to fit its content. */
+.petal { z-index: 3 !important; }
+.card { z-index: 12; overflow: visible; }
+.card:before { z-index: 0; }
+.card > * { position: relative; z-index: 1; }
+@media (max-width: 520px) {
+  body.open .scene { overflow: visible; }
+  body.open .stage { display: flex; flex-direction: column; align-items: center; height: auto; min-height: 0; overflow: visible; }
+  body.open .card {
+    position: relative; inset: auto; left: auto; top: auto;
+    width: min(100%, 390px); height: auto; min-height: 0; max-height: none;
+    margin: 115px auto 0; padding: 24px 20px 26px;
+    overflow: visible; transform: none; opacity: 1;
+  }
+  body.open .card p { overflow-wrap: normal; word-break: normal; white-space: pre-line; line-height: 1.65; }
+  body.open .bouquet { z-index: 7; top: 95px; }
+  body.open .envelope-wrap { z-index: 4; }
+  body.open .below { margin-top: 12px; }
+}
+
+
+/* Envelope lettering repair: clear Vietnamese text, no excessive tracking or flap overlap. */
+.env-label {
+  inset: 0;
+  top: 0;
+  z-index: 10;
+  display: block;
+  font-size: clamp(2.1rem, 7.5vw, 3rem);
+  line-height: 1;
+  letter-spacing: .015em;
+  text-align: center;
+  pointer-events: none;
+}
+.env-label > span {
+  position: absolute;
+  top: 15%;
+  left: 0;
+  right: 0;
+  display: block;
+  color: #c52e65;
+  font-size: 1em;
+  letter-spacing: .02em;
+  white-space: nowrap;
+}
+.env-label small {
+  position: absolute;
+  top: 73%;
+  left: 4%;
+  right: 4%;
+  display: block;
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(.57rem, 2.35vw, .72rem);
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: #b7295a;
+  white-space: nowrap;
+  text-shadow: 0 1px #fff8;
+}
+.env-seal { z-index: 11; }
+@media (max-width: 520px) {
+  .env-label > span { top: 14%; font-size: 1em; }
+  .env-label small { top: 73%; font-size: clamp(.53rem, 2.5vw, .68rem); letter-spacing: .065em; }
+}
+@media (max-width: 360px) {
+  .env-label > span { top: 14%; font-size: .95em; }
+  .env-label small { left: 2%; right: 2%; letter-spacing: .035em; font-size: .52rem; }
+}
+
+
+
+/* Final fix for the opened card: never clip the long greeting or let controls overlap it. */
+#greetingCard,
+.card {
+  letter-spacing: normal !important;
+  word-spacing: normal !important;
+  overflow-wrap: normal;
+}
+#cardTitle, #cardMessage, #cardSign {
+  letter-spacing: normal !important;
+  word-spacing: normal !important;
+  word-break: normal !important;
+  hyphens: none !important;
+}
+#cardMessage {
+  display: block;
+  width: 100%;
+  white-space: pre-line;
+  overflow-wrap: break-word !important;
+  line-height: 1.6;
+}
+@media (min-width: 761px) {
+  body.open .card {
+    max-height: min(72svh, 680px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-gutter: stable;
+  }
+}
+@media (max-width: 760px) {
+  body.open .scene {
+    min-height: 100svh;
+    height: auto;
+    overflow: visible;
+  }
+  body.open .stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: auto !important;
+    min-height: 0 !important;
+    margin-top: 0;
+    margin-bottom: 12px;
+    padding: 0 0 18px;
+    overflow: visible;
+  }
+  body.open .card {
+    position: relative;
+    inset: auto;
+    left: auto;
+    top: auto;
+    flex: 0 0 auto;
+    align-self: center;
+    width: min(calc(100vw - 32px), 500px);
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 112px auto 0 !important;
+    padding: 24px clamp(17px, 4vw, 26px) 27px;
+    transform: none !important;
+    overflow: visible !important;
+    text-align: center;
+  }
+  body.open .card:before { inset: 8px; }
+  body.open .card .mini { margin-top: 2px; }
+  body.open .card h2 {
+    font-size: clamp(1.45rem, 5vw, 1.85rem);
+    line-height: 1.22;
+    margin: 0 0 16px;
+  }
+  body.open #cardMessage {
+    font-size: clamp(.98rem, 2.6vw, 1.08rem);
+    line-height: 1.72;
+    white-space: pre-line;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+  }
+  body.open .card .sign { margin-top: 18px; }
+  body.open .bouquet { z-index: 7; top: 95px; }
+  body.open .envelope-wrap {
+    z-index: 4;
+    top: 90px;
+    transform: translate(-50%, 0) scale(.68);
+    opacity: .28;
+  }
+  body.open .hint { display: none; }
+  body.open .below {
+    position: relative;
+    z-index: 15;
+    width: 100%;
+    margin: 8px auto 0;
+    padding: 0 8px;
+  }
+  body.open .footer { margin-top: 16px; }
+}
+
+
+/* Vietnamese diacritics fix: use a font with reliable Vietnamese glyph/mark positioning. */
+#greetingCard,
+#greetingCard #cardTitle,
+#greetingCard #cardMessage,
+#greetingCard #cardSign {
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif !important;
+  letter-spacing: 0 !important;
+  word-spacing: normal !important;
+  font-kerning: normal;
+  font-variant-ligatures: none;
+  font-feature-settings: normal;
+  text-rendering: auto;
+}
+#greetingCard #cardMessage {
+  line-height: 1.72 !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  white-space: pre-line !important;
+}
+/* The small label on the envelope contains Vietnamese text too. */
+.env-label small {
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif !important;
+  letter-spacing: .025em !important;
+  word-spacing: normal !important;
+}
+
+</style>
+</head>
+<body>
+<main class="scene">
+  <div class="glow"></div>
+  <div class="topbar">
+    <div class="brand">♡ MỘT CHÚT YÊU THƯƠNG</div>
+    <div class="top-actions">
+      <button class="icon-btn" id="settingsBtn" title="Tùy chỉnh thiệp" aria-label="Tùy chỉnh thiệp">⚙</button>
+    </div>
+  </div>
+  <div class="sparkle s1">✧</div><div class="sparkle s2">♡</div><div class="sparkle s3">✦</div>
+  <header class="intro">
+    <div class="kicker">Gửi đến một người thật đặc biệt</div>
+    <h1>Chúc mừng <span>Ngày Phụ nữ Việt Nam</span></h1>
+    <p class="subtitle">Con muốn gửi mẹ một bó hoa hồng và những lời yêu thương thật dịu dàng trong ngày đặc biệt này. 💗</p>
+  </header>
+
+  <section class="stage" aria-label="Thiệp chúc mừng 20 tháng 10">
+    <div class="envelope-wrap" id="envelopeWrap">
+      <div class="envelope">
+        <div class="env-back"></div>
+        <div class="env-corner corner-left">❀</div><div class="env-corner corner-right">❀</div>
+        <div class="env-label"><span>20/10</span><small>GỬI MẸ YÊU THƯƠNG</small></div>
+        <div class="env-left"></div><div class="env-right"></div><div class="env-bottom"></div>
+        <div class="env-flap"></div><div class="env-seal">♡</div>
+      </div>
+    </div>
+
+    <div class="bouquet" aria-hidden="true">
+      <div class="stem s1"></div><div class="stem s2"></div><div class="stem s3"></div>
+      <div class="leaf"></div><div class="leaf l2"></div>
+      <div class="rose r1"><svg viewBox="0 0 100 100"><defs><radialGradient id="rg1" cx="35%" cy="25%"><stop stop-color="#ffb9ce"/><stop offset=".55" stop-color="#f35b8c"/><stop offset="1" stop-color="#bd2054"/></radialGradient></defs><g fill="url(#rg1)" stroke="#f983a8" stroke-width="1.2"><ellipse cx="50" cy="34" rx="26" ry="31"/><ellipse cx="31" cy="47" rx="25" ry="29" transform="rotate(-35 31 47)"/><ellipse cx="68" cy="48" rx="25" ry="29" transform="rotate(35 68 48)"/><ellipse cx="39" cy="66" rx="24" ry="23" transform="rotate(20 39 66)"/><ellipse cx="62" cy="65" rx="24" ry="23" transform="rotate(-20 62 65)"/><ellipse cx="50" cy="48" rx="17" ry="22" fill="#d72b65"/><path d="M43 43q17-17 18 1q-1 14-13 15q-13-5-5-16" fill="#ff9dbb"/></g></svg></div>
+      <div class="rose r2"><svg viewBox="0 0 100 100"><defs><radialGradient id="rg2" cx="30%" cy="20%"><stop stop-color="#ffd3df"/><stop offset=".55" stop-color="#ff7ca4"/><stop offset="1" stop-color="#ce2860"/></radialGradient></defs><g fill="url(#rg2)" stroke="#ffacc5" stroke-width="1.3"><ellipse cx="50" cy="32" rx="27" ry="31"/><ellipse cx="30" cy="46" rx="25" ry="29" transform="rotate(-38 30 46)"/><ellipse cx="70" cy="46" rx="25" ry="29" transform="rotate(38 70 46)"/><ellipse cx="39" cy="65" rx="25" ry="23" transform="rotate(20 39 65)"/><ellipse cx="61" cy="65" rx="25" ry="23" transform="rotate(-20 61 65)"/><path d="M50 28c22 0 19 25 1 33C32 55 32 34 50 28" fill="#e63b73"/><path d="M49 35q14-10 13 4q-3 10-13 12q-10-8 0-16" fill="#ffbad0"/></g></svg></div>
+      <div class="rose r3"><svg viewBox="0 0 100 100"><defs><radialGradient id="rg3" cx="30%" cy="20%"><stop stop-color="#ffc6d8"/><stop offset=".6" stop-color="#f85f91"/><stop offset="1" stop-color="#b91f50"/></radialGradient></defs><g fill="url(#rg3)" stroke="#ff9fbb" stroke-width="1.2"><ellipse cx="50" cy="34" rx="26" ry="30"/><ellipse cx="31" cy="48" rx="24" ry="28" transform="rotate(-35 31 48)"/><ellipse cx="69" cy="48" rx="24" ry="28" transform="rotate(35 69 48)"/><ellipse cx="40" cy="65" rx="24" ry="22"/><ellipse cx="61" cy="65" rx="24" ry="22"/><path d="M50 32q22-1 12 18q-3 12-14 13q-17-8-7-22z" fill="#d52b63"/></g></svg></div>
+      <div class="rose r4"><svg viewBox="0 0 100 100"><g fill="#f65b8c" stroke="#ff9cba" stroke-width="1.3"><ellipse cx="50" cy="34" rx="25" ry="30"/><ellipse cx="31" cy="49" rx="24" ry="27" transform="rotate(-35 31 49)"/><ellipse cx="69" cy="49" rx="24" ry="27" transform="rotate(35 69 49)"/><ellipse cx="50" cy="53" rx="17" ry="21" fill="#c91e57"/></g></svg></div>
+      <div class="bow"><i></i></div>
+    </div>
+
+    <article class="card" id="greetingCard" aria-live="polite">
+      <div class="photo-wrap hidden" id="photoWrap"><img id="recipientPhoto" alt="Ảnh người nhận"></div>
+      <div class="mini">🌷 ✨ 🌹</div>
+      <h2 id="cardTitle">Chúc mừng 20/10, mẹ yêu! 💗</h2>
+      <p id="cardMessage">Nhân ngày 20/10, chúc mẹ iu luôn mạnh khỏe, xinh đẹp, trẻ trung và lúc nào cũng vui vẻ, yêu đời nhé! 🥰
+
+Chúc nữ phụ huynh của con ngày càng giàu sức khỏe, giàu niềm vui, tiền vào như nước, may mắn tới liên tục; làm gì cũng thuận buồm xuôi gió, vạn sự như ý, muốn gì được nấy! 💰✨
+
+Chúc mẹ trẻ mãi không già, nở rộ như đóa hoa hồng đón nắng mai, luôn rực rỡ, tươi tắn và ngập tràn yêu đời! 🌹
+
+Mong mẹ mỗi ngày đều bình an, ít lo toan, nhiều niềm vui và luôn được yêu thương thật nhiều. ❤️</p>
+      <div class="sign" id="cardSign">Con yêu mẹ nhiều lắm! ♡</div>
+    </article>
+    <div class="hint" id="hint">✧ Chạm vào phong bì để mở thiệp ✧</div>
+  </section>
+
+  <div class="below">
+    <button class="tap-btn" id="openBtn">🌹 Mở thiệp yêu thương</button>
+    <p id="belowText">Một bó hoa nhỏ đang chờ được gửi đến bạn</p>
+    <button class="pill" id="reopenBtn" hidden>↻ Mở lại từ đầu</button>
+  </div>
+  <div class="footer">Được tạo bằng yêu thương · 20.10 ♡</div>
+</main>
+
+<div class="modal-backdrop" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsHeading">
+  <div class="modal">
+    <button class="close" id="closeModal" aria-label="Đóng">×</button>
+    <h3 id="settingsHeading">Tùy chỉnh tấm thiệp</h3>
+    <p>Viết lời chúc của riêng bạn và thêm ảnh người nhận nếu muốn.</p>
+    <label class="field">Tiêu đề thiệp
+      <input id="titleInput" maxlength="80" value="Chúc mừng 20/10, mẹ yêu! 💗">
+    </label>
+    <label class="field">Lời chúc
+      <textarea id="messageInput" maxlength="600">Nhân ngày 20/10, chúc mẹ iu luôn mạnh khỏe, xinh đẹp, trẻ trung và lúc nào cũng vui vẻ, yêu đời nhé! 🥰
+
+Chúc nữ phụ huynh của con ngày càng giàu sức khỏe, giàu niềm vui, tiền vào như nước, may mắn tới liên tục; làm gì cũng thuận buồm xuôi gió, vạn sự như ý, muốn gì được nấy! 💰✨
+
+Chúc mẹ trẻ mãi không già, nở rộ như đóa hoa hồng đón nắng mai, luôn rực rỡ, tươi tắn và ngập tràn yêu đời! 🌹
+
+Mong mẹ mỗi ngày đều bình an, ít lo toan, nhiều niềm vui và luôn được yêu thương thật nhiều. ❤️</textarea>
+    </label>
+    <label class="field">Chữ ký / người gửi
+      <input id="signInput" maxlength="80" value="Con yêu mẹ nhiều lắm ♡">
+    </label>
+    <label class="field">Ảnh người nhận (không bắt buộc)
+      <input id="photoInput" type="file" accept="image/*">
+    </label>
+    <p class="file-note">Ảnh được hiển thị ngay trên thiết bị của bạn, không tải lên mạng.</p>
+    <div class="modal-actions">
+      <button class="secondary-btn" id="cancelSettings">Hủy</button>
+      <button class="tap-btn" id="saveSettings">Lưu thay đổi</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const body = document.body;
+  const openBtn = $('openBtn'), reopenBtn = $('reopenBtn');
+  const modal = $('settingsModal');
+  let opened = false, photoUrl = ''; 
+
+  function burstPetals(count = 34) {
+    for (let i = 0; i < count; i++) {
+      const petal = document.createElement('span');
+      petal.className = 'petal';
+      petal.style.left = (Math.random() * 100) + 'vw';
+      petal.style.setProperty('--drift', ((Math.random() - .5) * 260) + 'px');
+      petal.style.animationDuration = (4.5 + Math.random() * 5) + 's';
+      petal.style.animationDelay = (Math.random() * 1.4) + 's';
+      petal.style.opacity = (.45 + Math.random() * .5).toString();
+      petal.style.transform = `rotate(${Math.random()*180}deg)`;
+      const size = 8 + Math.random() * 12;
+      petal.style.width = size + 'px'; petal.style.height = (size * 1.35) + 'px';
+      document.body.appendChild(petal);
+      setTimeout(() => petal.remove(), 11000);
+    }
+  }
+  function openCard() {
+    if (opened) return;
+    opened = true;
+    body.classList.add('open');
+    openBtn.textContent = '💗 Thiệp đã mở';
+    openBtn.disabled = true;
+    openBtn.style.opacity = '.75';
+    reopenBtn.hidden = false;
+    $('belowText').textContent = 'Gửi mẹ yêu, với tất cả tình yêu của con ♡';
+    burstPetals(48);
+    setTimeout(() => burstPetals(18), 800);
+  }
+  function resetCard() {
+    opened = false;
+    body.classList.remove('open');
+    openBtn.disabled = false;
+    openBtn.style.opacity = '1';
+    openBtn.textContent = '🌹 Mở thiệp yêu thương';
+    reopenBtn.hidden = true;
+    $('belowText').textContent = 'Một bó hoa hồng và lời chúc dành riêng cho mẹ ♡';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  openBtn.addEventListener('click', openCard);
+  $('envelopeWrap').addEventListener('click', openCard);
+  reopenBtn.addEventListener('click', resetCard);
+
+  function showSettings() {
+    $('titleInput').value = $('cardTitle').textContent;
+    $('messageInput').value = $('cardMessage').textContent;
+    $('signInput').value = $('cardSign').textContent;
+    modal.classList.add('show');
+  }
+  function closeSettings() { modal.classList.remove('show'); }
+  $('settingsBtn').addEventListener('click', showSettings);
+  $('closeModal').addEventListener('click', closeSettings);
+  $('cancelSettings').addEventListener('click', closeSettings);
+  modal.addEventListener('click', e => { if (e.target === modal) closeSettings(); });
+  $('saveSettings').addEventListener('click', () => {
+    $('cardTitle').textContent = $('titleInput').value.trim() || 'Chúc mừng ngày 20/10!';
+    $('cardMessage').textContent = $('messageInput').value.trim() || 'Chúc bạn một ngày 20/10 thật vui vẻ và hạnh phúc!';
+    $('cardSign').textContent = $('signInput').value.trim() || 'Gửi bạn thật nhiều yêu thương ♡';
+    const file = $('photoInput').files && $('photoInput').files[0];
+    if (file) {
+      if (photoUrl) URL.revokeObjectURL(photoUrl);
+      photoUrl = URL.createObjectURL(file);
+      $('recipientPhoto').src = photoUrl;
+      $('photoWrap').classList.remove('hidden');
+    }
+    closeSettings();
+    if (!opened) openCard();
+  });
+
+
+})();
+</script>
+</body>
+</html>
